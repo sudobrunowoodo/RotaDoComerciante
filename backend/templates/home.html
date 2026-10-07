@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>              
+    <meta charset="UTF-8">
+    <meta name ="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Contatos</h1>
+    <ul>
+        {% for contato in contatos %}
+            <li>{{ contato.nome }} - {{ contato.telefone }} - {{ contato.email }} -{{contato.senha}} -{{contato.local}} - {{contato.produto}}:
+                <a href="{{ url_for('deletar', id=contato.id) }}">Deletar</a>
+                <a href="{{ url_for('editar', id=contato.id) }}">Editar</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/registrar">Registrar Contato</a>
+</body>
+</html>
