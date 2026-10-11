@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for 
 from db import db 
-from models import Contato
+from models import Feirantes, Perfil_feirantes
 import bcrypt as bp
 
 app = Flask(__name__)
@@ -9,8 +9,8 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    contatos = db.session.query(Contato).all()
-    return render_template('home.html', contatos=contatos)
+    feirantes = db.session.query(Feirantes).all()
+    return render_template('home.html', feirantes=feirantes)
 
 # @app.route('/registrar')
 # def registrar():
@@ -19,45 +19,40 @@ def home():
 @app.route('/registrar', methods = ['GET', 'POST'])
 def registrar():
     if request.method == 'GET':
-        return render_template('registrar_contato.html')
+        return render_template('registrar_feirante.html')
     elif request.method == 'POST':
         nome = request.form['nomeForm']
-        telefone = request.form['telefoneForm']
         email = request.form['emailForm']
-        local = request.form['localForm']
         senha = request.form['senhaForm']
-        produto = request.form['produtoForm']
+        status = request.form['statusForm']
 
         senha_hash = bp.hashpw(senha.encode('utf-8'), bp.gensalt())    
 
-        novo_contato = Contato(nome=nome, telefone=telefone, email=email, local=local, produto=produto, senha=senha_hash)
-        db.session.add(novo_contato)
+        novo_feirante = Feirantes (nome=nome, email=email, senha=senha_hash, status=status)
+        db.session.add(novo_feirante)
         db.session.commit()
         return redirect(url_for('home'))
 
 @app.route('/deletar/<int:id>')
 def deletar(id):
-    contato = db.session.query(Contato).filter_by(id=id).first()
-    db.session.delete(contato)
+    feirante = db.session.query(Feirantes).filter_by(id=id).first()
+    db.session.delete(feirante)
     db.session.commit()
     return redirect(url_for('home'))
 
 @app.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar(id):
-    contato = db.session.query(Contato).filter_by(id=id).first()
+    feirante = db.session.query(Feirantes).filter_by(id=id).first()
     if request.method == 'GET':
-        return render_template('editar_contato.html', contato=contato)
+        return render_template('editar_feirante.html', feirante=feirante)
     elif request.method == 'POST':
         nome = request.form['nomeForm']
-        telefone = request.form['telefoneForm']
         email = request.form['emailForm']
-        local = request.form['localForm']
-        produto = request.form['produtoForm']
-        contato.nome = nome
-        contato.telefone = telefone
-        contato.email = email
-        contato.local = local
-        contato.produto = produto
+        status = request.form['statusForm']
+        
+        feirante.nome = nome
+        feirante.email = email
+        feirante.status = status
         db.session.commit()
         return redirect(url_for('home'))
 
@@ -67,3 +62,4 @@ if __name__ =="__main__":
     
     
     app.run(debug=True)
+    

@@ -6,15 +6,15 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Contatos</h1>
+    <h1>Feirantes</h1>
     <ul>
-        {% for contato in contatos %}
-            <li>{{ contato.nome }} - {{ contato.telefone }} - {{ contato.email }} -{{contato.senha}} -{{contato.local}} - {{contato.produto}}:
-                <a href="{{ url_for('deletar', id=contato.id) }}">Deletar</a>
-                <a href="{{ url_for('editar', id=contato.id) }}">Editar</a>
+        {% for feirante in feirantes %}
+            <li>{{ feirante.nome }} - {{ feirante.email }} - {{ feirante.status }}:
+                <a href="{{ url_for('deletar', id=feirante.id) }}">Deletar</a>
+                <a href="{{ url_for('editar', id=feirante.id) }}">Editar</a>
             </li>
         {% endfor %}
     </ul>
-    <a href="/registrar">Registrar Contato</a>
+    <a href="/registrar">Registrar Feirante</a>
 </body>
 </html>
