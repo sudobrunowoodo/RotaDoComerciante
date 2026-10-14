@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Localização</title>
+</head>
+<body>
+    <h1>Minha Localização</h1>
+
+    {% if localizacoes %}
+        <ul>
+            {% for loc in localizacoes %}
+                <li>
+                    Endereço: {{ loc.endereco }}
+                    <br>
+                    Latitude: {{ loc.latitude }}
+                    <br>
+                    Longitude: {{ loc.longitude }}
+                    <br>
+                    Horário de abertura: {{ loc.hora_abertura }}
+                    <br>
+                    Horário de fechamento: {{ loc.hora_fechamento }}
+                    <br><br>
+
+                    <a href="{{ url_for('editar_localizacao', id=loc.id) }}">
+                        Editar
+                    </a>
+
+                    <form action="{{ url_for('deletar_localizacao', id=loc.id) }}" method="post">
+                        <button type="submit">Deletar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhuma localização cadastrada.</p>
+    {% endif %}
+
+    <a href="{{ url_for('registrar_localizacao') }}">Cadastrar Localização</a>
+
+    <br><br>
+
+    <a href="{{ url_for('home') }}">Voltar para Feirantes</a>
+</body>
+</html>
