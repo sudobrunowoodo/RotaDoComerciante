@@ -1,6 +1,7 @@
 from db import db
+from flask_login import UserMixin
 
-class Feirantes (db.Model):
+class Feirantes (db.Model, UserMixin):
     __tablename__ = 'feirantes'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(80), nullable=False)
@@ -15,7 +16,7 @@ class Feirantes (db.Model):
 class Perfil_feirantes(db.Model):
     __tablename__ = 'perfil_feirantes'
     id = db.Column(db.Integer, primary_key=True)    
-    feirante_id = db.Column(db.Integer, db.ForeignKey('contatos.id'), nullable=False)
+    feirante_id = db.Column(db.Integer, db.ForeignKey('feirantes.id'), nullable=False)
     nome_barraca = db.Column(db.String(80), nullable=False)
     descricao = db.Column(db.String(200), nullable=False)
     categoria = db.Column(db.String(80), nullable=False)
