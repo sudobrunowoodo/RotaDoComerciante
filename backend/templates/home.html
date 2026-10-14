@@ -17,5 +17,18 @@
         <a href="/logout">Logout</a>
     </ul>
     <a href="/registrar">Registrar Feirante</a>
+    <div style="position: relative; z-index: 1; margin-top: 20px;">
+
+    <a href="{{ url_for('produtos') }}" class="botao-registrar">
+        Meus Produtos
+    </a>
+
+    <br><br>
+
+    <a href="{{ url_for('localizacoes') }}" class="botao-registrar">
+        Minha Localização
+    </a>
+
+</div>
 </body>
 </html>
