@@ -5,9 +5,17 @@ from models import Feirantes, Perfil_feirantes, Produtos, Localizacao
 from datetime import datetime
 from math import isfinite
 import bcrypt as bp
+from utils import verificar_cnpj
+import os
+from jinja2 import ChoiceLoader, FileSystemLoader
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
+app.jinja_loader = ChoiceLoader([
+    FileSystemLoader(os.path.join(BASE_DIR, 'templates')),
+    FileSystemLoader(os.path.join(BASE_DIR, '..', 'frontend'))
+])
 app.secret_key = 'RotaDoFeirante'
 lm = LoginManager(app)
 lm.login_view = 'login'
@@ -25,19 +33,21 @@ def user_loader(id):
     feirante = db.session.query(Feirantes).filter_by(id= id).first()
     return feirante
 
-# @app.route('/registrar')
-# def registrar():
-#     return render_template('registrar_contato.html')
-
 @app.route('/registrar', methods = ['GET', 'POST'])
 def registrar():
     if request.method == 'GET':
-        return render_template('registrar_feirante.html')
+        return render_template('registrar.html')
     elif request.method == 'POST':
         nome = request.form['nomeForm']
         email = request.form['emailForm']
         senha = request.form['senhaForm']
-        status = request.form['statusForm']
+        cnpj = request.form['cnpjForm']
+
+        status_bol = verificar_cnpj(cnpj)
+        if status_bol:
+            status = "ativo"
+        else:
+            status = "inativo"
 
         senha_hash = bp.hashpw(senha.encode('utf-8'), bp.gensalt())    
 
