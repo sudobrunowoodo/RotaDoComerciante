@@ -29,7 +29,6 @@ Na pasta `backend`, crie um ambiente virtual e instale as dependências.
 ```bash
 python -m venv venv
 venv\Scripts\activate
-pip install -r requirements.txt
 ```
 
 **Linux / macOS:**
@@ -37,10 +36,7 @@ pip install -r requirements.txt
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
 ```
-
-Se preferir instalar sem o arquivo:
 
 ```bash
 pip install Flask Flask-SQLAlchemy Flask-Login bcrypt requests
@@ -93,13 +89,6 @@ automaticamente na primeira execução (`db.create_all()`), e o arquivo
 
 ## Problemas comuns
 
-- **`ModuleNotFoundError`**: o ambiente virtual não está ativado ou as dependências não foram instaladas. Rode `pip install -r requirements.txt` de novo.
 - **`TemplateNotFound: registrar.html`**: o arquivo não está em `backend/templates` nem em `../frontend`. Confira se a pasta `frontend` está ao lado do `backend`.
 - **Erro ao instalar o `bcrypt`**: atualize o pip com `python -m pip install --upgrade pip` e tente de novo.
 - **CNPJ sempre "inativo"**: sem internet, ou a BrasilAPI está fora do ar, o cadastro cai no status `inativo`.
-
-## Observações
-
-- `pedro.py` é um arquivo de testes com dados em memória. Ele não é usado pelo servidor e só precisa do Flask.
-- A `secret_key` está fixa em `config.py`. Para uso em produção, mova-a para uma variável de ambiente.
-- `debug=True` está ligado em `main.py`. Desative em produção.
