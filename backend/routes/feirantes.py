@@ -8,10 +8,16 @@ from config import app, lm
 
 
 @app.route('/')
+def front_page():
+    feirantes = db.session.query(Feirantes).all()
+    return render_template('front_page.html', feirantes=feirantes)
+
+@app.route('/home')
 @login_required
 def home():
     feirantes = db.session.query(Feirantes).all()
     return render_template('home.html', feirantes=feirantes)
+
 
 @lm.user_loader
 def user_loader(id):
